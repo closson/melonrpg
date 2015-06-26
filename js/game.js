@@ -37,7 +37,7 @@ var game = {
     me.state.change(me.state.LOADING);
     
     me.sys.gravity = 0;
-    me.game.sortOn = "y";
+    me.game.sortOn = "bottom";
     me.debug.renderHitBox = true;
     me.debug.renderVelocity = true;
 },
@@ -50,12 +50,14 @@ var game = {
         // add our player entity in the entity pool
         me.pool.register("Player", game.PlayerEntity);
         me.pool.register("Blue Slime", game.SlimeEntity, true);
-
+        me.pool.register("Sword", game.SwordEntity, true);
+        me.pool.register("Marker", game.MarkerEntity, true);
 
         me.input.bindKey(me.input.KEY.LEFT,  "left");
           me.input.bindKey(me.input.KEY.RIGHT, "right");
           me.input.bindKey(me.input.KEY.UP,  "up");
-            me.input.bindKey(me.input.KEY.DOWN, "down");
+          me.input.bindKey(me.input.KEY.DOWN, "down");
+          me.input.bindKey(me.input.KEY.SPACE, "attack", true);
         // Start the game.
         me.state.change(me.state.PLAY);
     }

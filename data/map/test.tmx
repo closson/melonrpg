@@ -61,6 +61,6 @@
  </objectgroup>
  <objectgroup name="Enemies">
   <object id="5" name="Blue Slime" x="480" y="128" width="32" height="32"/>
-  <object id="7" name="Player" x="416" y="448" width="32" height="64"/>
+  <object id="7" name="Player" x="288" y="192" width="32" height="64"/>
  </objectgroup>
 </map>
