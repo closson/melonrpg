@@ -37,7 +37,11 @@ var game = {
     me.state.change(me.state.LOADING);
     
     me.sys.gravity = 0;
-    me.game.sortOn = "bottom";
+    me.game.world.sortOn = "bottom";
+    me.game.world._sortBOTTOM = function (a, b) {
+      var result = (b.z - a.z);
+      return (result ? result : (b.bottom - a.bottom) || 0);
+    };
     me.debug.renderHitBox = true;
     me.debug.renderVelocity = true;
 },

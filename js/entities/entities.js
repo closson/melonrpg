@@ -52,7 +52,7 @@ game.PlayerEntity = me.Entity.extend({
       mnd: 10
     }
     this.body.collisionType = me.collision.types.PLAYER_OBJECT;
-    this.body.maxVelWalk = 4;
+    this.body.maxVelWalk = 2;
     this.body.maxVelRun = 3.5;
     this.body.bounceDistance = 7;
     this.body.bounceFriction = 0.5;
@@ -175,7 +175,9 @@ game.PlayerEntity = me.Entity.extend({
     // handle collisions against other shapes
     me.collision.check(this);
     // return true if we moved or if the renderable was updated
-    return (this._super(me.Entity, 'update', [dt]) || this.body.vel.x !== 0 || this.body.vel.y !== 0);
+    this._super(me.Entity, 'update', [dt]);
+    me.game.world.sort(me.sortByBottom);
+    return true;
   },
   onCollision: function(response, other) {
     // initial shape empty to provide illusion of 3D collision
@@ -237,7 +239,7 @@ game.SlimeEntity = me.Entity.extend({
     }
 
     this.touchDamage = true;
-
+    this.body.collisionType = me.collision.types.ENEMY_OBJECT;
     this.renderable.addAnimation("bouncing", [0, 1, 2, 1], 200);
     this.renderable.addAnimation("attacked", [3, 4, 5, 6]);
     this.renderable.addAnimation("dead", [6, 6], 1000);
@@ -305,10 +307,13 @@ game.SlimeEntity = me.Entity.extend({
         this.stats.hp -= 250;
         if (this.stats.hp <= 0) {
           this.alive = false;
+          this.body.collisionType = me.collision.types.NO_OBJECT;
+          this.z -= 1;
           this.renderable.setCurrentAnimation("attacked", (function() {
             this.renderable.setCurrentAnimation("dead", (function() {
               this.renderable.flicker(1000, (function() {
                 me.game.world.removeChild(this);
+                me.game.repaint();
               }).bind(this));
             }).bind(this));
           }).bind(this));
